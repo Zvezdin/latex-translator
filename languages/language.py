@@ -8,6 +8,8 @@ class Language(abc.ABC):
 	def __init__(self):
 		self.replaceDict = {} #dict of type keyInText => replacedText.
 		self.name = ""
+		self.html = False #causes the translation to be formatted as and saved as an html document.
+		#this is needed for google translate, as otherwise there is no way to tell google to ignore our keys.
 		pass
 
 	@abc.abstractmethod
@@ -29,8 +31,12 @@ class Language(abc.ABC):
 			matchText = match.group(0) #the text of the single match
 			print("Found matching text %s" % matchText)
 			key = replaceFunction(matchText) #the encoded key of it
+
 			print("The key of it is %s" % key)
 			self.replaceDict[key] = matchText #save what we replaced and the key we replaced it with
+
+			if self.html:
+				return r"<span class='notranslate'>" + key + r"</span>" #tag so google translate ignores this key
 			return key
 		
 		return re.sub(regex, replaceWrapper, text)

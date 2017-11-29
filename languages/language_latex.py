@@ -26,6 +26,10 @@ class LanguageLaTeX(Language):
 
 	def encode(self, text):
 		#comments
+		if self.html:
+			text = '<!DOCTYPE html>\n<pre>\n' + text #make it sound like this is html
+
+
 		text = self.replaceAllRegex(self.comment, text, self.hashText)
 		
 		#abstract, begin and enumerate special environments
@@ -48,6 +52,9 @@ class LanguageLaTeX(Language):
 
 		#commands
 		text = self.replaceAllRegex(self.command, text, self.hashText)
+
+		if self.html:
+			text = text+'\n</pre>'
 
 		return text
 
