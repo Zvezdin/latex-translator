@@ -22,7 +22,7 @@ class LanguageLaTeX(Language):
 		self.comment = r'(?<=[^\\])(?m)%.*?$'
 		#TODO what about quotes line ``hey''?
 		#TODO special environments like document, abstract or enumerate, itemize?
-		self.specialEnvironments = [r'document', r'abstract', r'enumerate', r'itemize']
+		self.specialEnvironments = [r'document', r'abstract', r'enumerate', r'itemize', r'frame', r'column', r'columns', r'alertblock', r'block']
 
 	def encode(self, text):
 		#comments
