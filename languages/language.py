@@ -9,6 +9,7 @@ class Language(abc.ABC):
 		self.replaceDict = {} #dict of type keyInText => replacedText.
 		self.name = ""
 		self.html = False #causes the translation to be formatted as and saved as an html document.
+		self.htmlWrapper = [r"<span class='notranslate'>", r"</span>"] #html, in which replace hashes will be wrapped
 		#this is needed for google translate, as otherwise there is no way to tell google to ignore our keys.
 		pass
 
@@ -36,7 +37,7 @@ class Language(abc.ABC):
 			self.replaceDict[key] = matchText #save what we replaced and the key we replaced it with
 
 			if self.html:
-				return r"<span class='notranslate'>" + key + r"</span>" #tag so google translate ignores this key
+				return self.htmlWrapper[0] + key + self.htmlWrapper[1] #tag so google translate ignores this key
 			return key
 		
 		return re.sub(regex, replaceWrapper, text)
